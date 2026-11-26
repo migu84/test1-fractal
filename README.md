@@ -36,7 +36,8 @@ Azure, lowercase alphanumeric, 24 characters max. Change it in `fractal.ts` and
 ## Prerequisites
 
 1. A Fractal Cloud service account (client id + secret).
-2. Your owner UUID.
+2. Your organization UUID. The bounded context and environment are
+   `Organizational`, owned by that organization.
 3. A Fractal Cloud **environment** with the same name you deploy to (`dev` by
    default), already connected to an Azure subscription. This repo deploys a Live
    System into an environment; it does not create the environment.
@@ -54,7 +55,7 @@ Or manually: `npm ci && npm run deploy` with the variables exported.
 |---|---|---|
 | `SERVICE_ACCOUNT_ID` | yes | Service account id |
 | `SERVICE_ACCOUNT_SECRET` | yes | Service account secret |
-| `OWNER_ID` | yes | Owner UUID |
+| `OWNER_ID` | yes | Organization UUID |
 | `BC_NAME` | no | Bounded context name (default `data-platform`) |
 | `ENVIRONMENT_NAME` | no | Environment (default `dev`) |
 | `LIVE_SYSTEM_NAME` | no | Live System name (default `data-processing-platform`) |
@@ -65,7 +66,8 @@ Or manually: `npm ci && npm run deploy` with the variables exported.
 `ci.yml` runs on pull requests and pushes to `main`.
 
 `deploy.yml` is manual (**Actions → Deploy data processing platform → Run
-workflow**). Pick the environment and mode. Deploys to the same environment are
+workflow**). Pick the environment, the bounded context (empty uses the
+`FRACTAL_BC_NAME` variable, else `data-platform`) and the mode. Deploys to the same environment are
 serialized.
 
 Configure these per GitHub environment (`dev`, `staging`, `prod`; add required
@@ -75,7 +77,7 @@ reviewers on `prod`):
 |---|---|---|
 | Secret | `FRACTAL_SERVICE_ACCOUNT_ID` | Service account id |
 | Secret | `FRACTAL_SERVICE_ACCOUNT_SECRET` | Service account secret |
-| Variable | `FRACTAL_OWNER_ID` | Owner UUID |
+| Variable | `FRACTAL_OWNER_ID` | Organization UUID |
 | Variable | `FRACTAL_BC_NAME` | Bounded context name (optional) |
 
 The selected environment name is passed as `ENVIRONMENT_NAME`, so each GitHub

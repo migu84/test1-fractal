@@ -19,9 +19,9 @@ import {
 } from '@fractal_cloud/sdk/model';
 
 const environment = {
-  ownerType: 'Personal',
+  ownerType: 'Organizational',
   ownerId: process.env['OWNER_ID'] ?? '',
-  name: process.env['ENVIRONMENT_NAME'] ?? 'dev',
+  name: process.env['ENVIRONMENT_NAME'] || 'dev',
 };
 
 const credentials = {
@@ -32,6 +32,17 @@ const credentials = {
 const cloud = createFractalCloudClient(credentials);
 
 async function main() {
+  // GitHub passes an unset variable as an empty string, which would build
+  // the path "Organizational///..." and surface as an opaque 404. Fail early.
+  const missing = [
+    'SERVICE_ACCOUNT_ID',
+    'SERVICE_ACCOUNT_SECRET',
+    'OWNER_ID',
+  ].filter(name => !process.env[name]);
+  if (missing.length > 0) {
+    throw new Error(`missing required variables: ${missing.join(', ')}`);
+  }
+
   const fractal = authorFractal();
   const liveSystem = fractal
     .specialize()
@@ -55,7 +66,7 @@ async function main() {
   console.log(
     'LIVE_SYSTEM_ID=' +
       [
-        bc.ownerType ?? 'Personal',
+        bc.ownerType ?? 'Organizational',
         bc.ownerId ?? '',
         bc.name ?? '',
         liveSystem.name,

@@ -31,9 +31,9 @@ import {
 } from '@fractal_cloud/sdk/model';
 
 const boundedContextId = {
-  ownerType: 'Personal',
+  ownerType: 'Organizational',
   ownerId: process.env['OWNER_ID'] ?? '',
-  name: process.env['BC_NAME'] ?? 'data-platform',
+  name: process.env['BC_NAME'] || 'data-platform',
 };
 
 /**

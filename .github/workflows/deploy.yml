@@ -9,6 +9,10 @@ on:
         type: choice
         options: [dev, staging, prod]
         default: dev
+      bounded_context:
+        description: Bounded context name (empty = the FRACTAL_BC_NAME variable, else data-platform)
+        type: string
+        default: ''
       mode:
         description: wait blocks until Active; fire-and-forget returns immediately
         type: choice
@@ -32,7 +36,7 @@ jobs:
       SERVICE_ACCOUNT_ID: ${{ secrets.FRACTAL_SERVICE_ACCOUNT_ID }}
       SERVICE_ACCOUNT_SECRET: ${{ secrets.FRACTAL_SERVICE_ACCOUNT_SECRET }}
       OWNER_ID: ${{ vars.FRACTAL_OWNER_ID }}
-      BC_NAME: ${{ vars.FRACTAL_BC_NAME }}
+      BC_NAME: ${{ inputs.bounded_context || vars.FRACTAL_BC_NAME }}
       ENVIRONMENT_NAME: ${{ inputs.environment }}
       DEPLOY_MODE: ${{ inputs.mode }}
     steps:
