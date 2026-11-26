@@ -90,7 +90,8 @@ export function authorFractal() {
         }).dependsOn(workspace), // structural: tracked in the workspace
       );
 
-      // ── Data lake — object versioning is governed (keep object history). ──
+      // ── Data lake. No versioning guardrail: the Azure Datalake offer's agent
+      //    sets no blob versioning and rejects withVersioningEnabled. ──
       // The id becomes the storage/bucket name verbatim on Azure, where a
       // Datalake is an ADLS Gen2 STORAGE ACCOUNT and that name is GLOBAL across
       // all of Azure. The obvious id 'lake' is already taken by another party
@@ -102,7 +103,7 @@ export function authorFractal() {
         Datalake({
           id: 'acmebigdatalake',
           displayName: 'Data Lake',
-        }).withVersioningEnabled(true), // guardrail
+        }),
       );
 
       return {workspace, cluster, job, experiment, lake};

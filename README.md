@@ -10,7 +10,7 @@ DistributedDataProcessing (analytics-workspace)  Azure Databricks workspace (pre
   ├─ ComputeCluster (analytics-cluster)          Databricks cluster
   ├─ DataProcessingJob (etl-job)                 Scheduled ETL job (needs the cluster)
   └─ MlExperiment (fraud-model)                  MLflow experiment tracker
-Datalake (acmebigdatalake)                       ADLS Gen2 storage account, versioning on
+Datalake (acmebigdatalake)                       ADLS Gen2 storage account
 ```
 
 ## Layout
@@ -25,7 +25,7 @@ src/
   deploy.yml   Manual deploy to a chosen environment
 ```
 
-Guardrails (max workers, auto-termination, retries, lake versioning) are locked
+Guardrails (max workers, auto-termination, retries) are locked
 in `fractal.ts`. The app only decides names and schedule via operations. The
 Azure offer mapping lives in the `select` map in `azure.ts`.
 
