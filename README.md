@@ -67,18 +67,18 @@ Or manually: `npm ci && npm run deploy` with the variables exported.
 
 `deploy.yml` is manual (**Actions → Deploy data processing platform → Run
 workflow**). Pick the environment, the bounded context (empty uses the
-`FRACTAL_BC_NAME` variable, else `data-platform`) and the mode. Deploys to the same environment are
-serialized.
+`BC_NAME` variable, else `data-platform`) and the mode. Deploys to the same
+environment are serialized.
 
-Configure these per GitHub environment (`dev`, `staging`, `prod`; add required
-reviewers on `prod`):
+Configure these under repository **Settings → Secrets and variables → Actions**
+(or on a GitHub environment to override per environment):
 
 | Kind | Name | Value |
 |---|---|---|
-| Secret | `FRACTAL_SERVICE_ACCOUNT_ID` | Service account id |
-| Secret | `FRACTAL_SERVICE_ACCOUNT_SECRET` | Service account secret |
-| Variable | `FRACTAL_OWNER_ID` | Organization UUID |
-| Variable | `FRACTAL_BC_NAME` | Bounded context name (optional) |
+| Variable | `SERVICE_ACCOUNT_ID` | Service account id |
+| Secret | `SERVICE_ACCOUNT_SECRET` | Service account secret |
+| Variable | `OWNER_ID` | Organization UUID |
+| Variable | `BC_NAME` | Bounded context name (optional) |
 
-The selected environment name is passed as `ENVIRONMENT_NAME`, so each GitHub
-environment targets the Fractal environment of the same name.
+The selected environment name is passed as `ENVIRONMENT_NAME`, so each choice
+targets the Fractal environment of the same name.

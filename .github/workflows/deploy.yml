@@ -10,7 +10,7 @@ on:
         options: [dev, staging, prod]
         default: dev
       bounded_context:
-        description: Bounded context name (empty = the FRACTAL_BC_NAME variable, else data-platform)
+        description: Bounded context name (empty = the BC_NAME variable, else data-platform)
         type: string
         default: ''
       mode:
@@ -33,10 +33,10 @@ jobs:
     timeout-minutes: 60
     environment: ${{ inputs.environment }}
     env:
-      SERVICE_ACCOUNT_ID: ${{ secrets.FRACTAL_SERVICE_ACCOUNT_ID }}
-      SERVICE_ACCOUNT_SECRET: ${{ secrets.FRACTAL_SERVICE_ACCOUNT_SECRET }}
-      OWNER_ID: ${{ vars.FRACTAL_OWNER_ID }}
-      BC_NAME: ${{ inputs.bounded_context || vars.FRACTAL_BC_NAME }}
+      SERVICE_ACCOUNT_ID: ${{ vars.SERVICE_ACCOUNT_ID }}
+      SERVICE_ACCOUNT_SECRET: ${{ secrets.SERVICE_ACCOUNT_SECRET }}
+      OWNER_ID: ${{ vars.OWNER_ID }}
+      BC_NAME: ${{ inputs.bounded_context || vars.BC_NAME }}
       ENVIRONMENT_NAME: ${{ inputs.environment }}
       DEPLOY_MODE: ${{ inputs.mode }}
     steps:
