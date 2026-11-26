@@ -1,0 +1,25 @@
+{
+  "name": "data-processing-platform",
+  "version": "0.0.1",
+  "description": "Governed data processing platform on Azure (Databricks + ADLS Gen2), instantiated with the Fractal Cloud TypeScript SDK",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "deploy": "npm run compile && node build/src/azure.js"
+  },
+  "dependencies": {
+    "@fractal_cloud/sdk": "^2.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "gts": "^7.0.0",
+    "typescript": "^5.9.0"
+  }
+}

@@ -1,0 +1,48 @@
+name: Deploy data processing platform
+
+# Manual by design: a deploy provisions real Azure resources.
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: GitHub environment (holds the secrets) and Fractal environment name
+        type: choice
+        options: [dev, staging, prod]
+        default: dev
+      mode:
+        description: wait blocks until Active; fire-and-forget returns immediately
+        type: choice
+        options: [wait, fire-and-forget]
+        default: wait
+
+permissions:
+  contents: read
+
+# One deploy per environment at a time; never cancel one mid-flight.
+concurrency:
+  group: deploy-${{ inputs.environment }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    environment: ${{ inputs.environment }}
+    env:
+      SERVICE_ACCOUNT_ID: ${{ secrets.FRACTAL_SERVICE_ACCOUNT_ID }}
+      SERVICE_ACCOUNT_SECRET: ${{ secrets.FRACTAL_SERVICE_ACCOUNT_SECRET }}
+      OWNER_ID: ${{ vars.FRACTAL_OWNER_ID }}
+      BC_NAME: ${{ vars.FRACTAL_BC_NAME }}
+      ENVIRONMENT_NAME: ${{ inputs.environment }}
+      DEPLOY_MODE: ${{ inputs.mode }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run compile
+      - run: npm run lint
+      - name: Deploy
+        run: node build/src/azure.js
