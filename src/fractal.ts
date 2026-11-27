@@ -28,6 +28,7 @@ import {
   DistributedDataProcessing,
   MlExperiment,
   Datalake,
+  type DatalakeLink,
 } from '@fractal_cloud/sdk/model';
 
 const boundedContextId = {
@@ -105,6 +106,11 @@ export function authorFractal() {
           displayName: 'Data Lake',
         }),
       );
+
+      // ── The job writes its processed output to the lake. The agent hands the
+      //    job the lake URI at runtime (LAKE_CURATED_URI); the URI is not on the
+      //    link. ──
+      bp.link(job, lake, {purpose: 'curated'} satisfies DatalakeLink);
 
       return {workspace, cluster, job, experiment, lake};
     },

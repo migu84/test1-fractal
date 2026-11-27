@@ -15,7 +15,7 @@
     "deploy": "npm run compile && node build/src/azure.js"
   },
   "dependencies": {
-    "@fractal_cloud/sdk": "^2.15.0"
+    "@fractal_cloud/sdk": "^2.16.0"
   },
   "devDependencies": {
     "@types/node": "^22.19.0",
